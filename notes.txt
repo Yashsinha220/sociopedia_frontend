@@ -1,0 +1,2 @@
+for the pull request first write the fetch and the git pull
+for the push request first write the git push --set-upstream origin sidebranch
