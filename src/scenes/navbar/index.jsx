@@ -30,12 +30,15 @@ import FlexBetween from "../../components/FlexBetween";
 function Navbar() {
   const [isMobileMenuToggle, setisMobileMenuToggle] = useState(false);
   const dispatch = useDispatch();
+  // console.log(dispatch)
+
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
+  console.log(user)
   // for the screen size
   const isNonMobileScreen = useMediaQuery("(min-width:1000px");
   const theme = useTheme();
-  console.log(theme);
+  // console.log(theme);
   const neutralLight = theme.palette.neutral.light;
   const dark = theme.palette.neutral.dark;
   const background = theme.palette.background.default;
@@ -126,6 +129,8 @@ function Navbar() {
           </FormControl>
         </FlexBetween>
       ) : (
+
+        // setting the mobilemenu toggle as the true so that right sidebar open
         <IconButton onClick={() => setisMobileMenuToggle(!isMobileMenuToggle)}>
           <Menu />
         </IconButton>

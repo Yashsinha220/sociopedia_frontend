@@ -19,6 +19,9 @@ function App() {
   // usememo catch the data that performance is done
   // creating the the theme according to the mode
 
+
+
+  // here we are sending the mode for setting the mode and changing the colro
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   console.log;
 
