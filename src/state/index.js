@@ -27,6 +27,7 @@ export const autSlice = createSlice({
     },
     setfriends: (state, action) => {
       if (state.user) {
+        // if the user exists than we set the friends in the user
         state.user.friends = action.payload.friends;
       } else {
         console.error("User friends non-existend :");
@@ -46,6 +47,13 @@ export const autSlice = createSlice({
   },
 });
 
+
+// You need to export the reducer functions to use them in your code
+// exporting the function here
+
 export const { setMode, setLogin, setLogout, setfriends, setPost, setPosts } =
   autSlice.actions;
+
+
+  // remeber there could be only one default export
 export default autSlice.reducer;
