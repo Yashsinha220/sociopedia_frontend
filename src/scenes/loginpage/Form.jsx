@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 
 import { EditOutlined } from "@mui/icons-material";
+import axios from "axios";
 // import {Formi}
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -19,6 +20,7 @@ import { setLogin } from "../../state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "../../components/FlexBetween";
 import { Input } from "postcss";
+import { useSelector } from "react-redux";
 // import {DropS} from 'react-dropzone'
 
 const registerSchema = yup.object().shape({
@@ -37,8 +39,8 @@ const loginschema = yup.object().shape({
 });
 
 const intialvalueRegister = {
-  firstname: "",
-  lastname: "",
+  firstName: "",
+  lastName: "",
   email: "",
   password: "",
   location: "",
@@ -52,6 +54,7 @@ const intialvalueLogin = {
 };
 function Form() {
   const [pagetype, setPageType] = useState("register");
+
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -60,35 +63,60 @@ function Form() {
   // const isRegister = ;
   const isRegister = pagetype === "register";
 
+  const state = useSelector((state) => state);
+
   const register = async (values, onSubmitProps) => {
-    // we need to use the form data to store our form data
-    // allow us to send the form infor with image
+    // form data will never display what you have sent in the form data object you need to see it by own
     const formData = new FormData();
     for (let value in values) {
       formData.append(value, values[value]);
     }
-    formData.append("picturepath", values.picture.name);
-    console.log(formData)
-    // const savedUserresponse = await fetch(
-    //   "http://localhost:3001/auth/register",
-    //   {
-    //     method: "POST",
-    //     body: formData,
-    //   }
-    // );
+    formData.append("picutrepath", values.picture.name);
 
-    // const savedUser = await savedUserresponse.json();
-    // // for reseting the form
-    // onSubmitProps.resetForm();
-    // if (savedUser) {
-    //   setPageType("login");
-    // }
+    axios
+      .post("http://localhost:3001/auth/register", formData)
+      .then((res) => {
+        console.log(res);
+      })
+      .then((data) => {
+        console.log(data);
+        onSubmitProps.resetForm();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
-  const login = async (values, onSubmitProps) => {};
+  const login = async (values, onSubmitProps) => {
+    axios
+      .post("http://localhost:3001/auth/login", values, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res);
+
+        // this will send as the action paload data to the action
+        dispatch(
+          setLogin({
+            user: res.data.user,
+            token: res.data.token,
+          })
+        );
+        console.log(state);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const hadleformsubmit = async (values, onSubmitProps) => {
+    // console.log("form triggered", values);
     if (islogin) await login(values, onSubmitProps);
-    if (isRegister) await register(values, onSubmitProps);
+    if (isRegister) {
+      console.log("register triggered");
+      await register(values, onSubmitProps);
+    }
   };
   return (
     <Formik
@@ -105,6 +133,7 @@ function Form() {
         handleSubmit,
         setFieldValue,
         resetForm,
+        onSubmitProps,
       }) => (
         <form onSubmit={handleSubmit}>
           <Box
