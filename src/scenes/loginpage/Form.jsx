@@ -76,10 +76,6 @@ function Form() {
     axios
       .post("http://localhost:3001/auth/register", formData)
       .then((res) => {
-        console.log(res);
-      })
-      .then((data) => {
-        console.log(data);
         onSubmitProps.resetForm();
       })
       .catch((err) => {
@@ -94,8 +90,6 @@ function Form() {
         },
       })
       .then((res) => {
-        console.log(res);
-
         // this will send as the action paload data to the action
         dispatch(
           setLogin({
@@ -103,7 +97,9 @@ function Form() {
             token: res.data.token,
           })
         );
-        console.log(state);
+        navigate('/home')
+        // console.log(state);
+        
       })
       .catch((error) => {
         console.log(error);

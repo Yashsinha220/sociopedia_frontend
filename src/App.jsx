@@ -19,11 +19,10 @@ function App() {
   // usememo catch the data that performance is done
   // creating the the theme according to the mode
 
-
-
   // here we are sending the mode for setting the mode and changing the colro
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-  console.log;
+
+  const isAuth = Boolean(useSelector((state) => state.token));
 
   return (
     <div className="app">
@@ -34,8 +33,8 @@ function App() {
 
           <Routes>
             <Route path="/" element={<Loginpage />}></Route>
-            <Route path="/home" element={<HomePage />}></Route>
-            <Route path="/profile/:userId" element={<ProfilePage />}></Route>
+            <Route path="/home" element={ isAuth ? <HomePage /> : <Navigate to={'/'}/>}></Route>
+            <Route path="/profile/:userId" element={isAuth ?<ProfilePage /> : <Navigate to={'/'}/>}></Route>
           </Routes>
         </ThemeProvider>
       </BrowserRouter>

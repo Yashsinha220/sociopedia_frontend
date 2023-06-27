@@ -3,13 +3,27 @@ import Navbar from "../navbar";
 import FlexBetween from "../../components/FlexBetween";
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
 import Form from "./Form";
-
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 function Loginpage() {
+
   const theme = useTheme();
 
   const primaryLight = theme.palette.primary.light;
 
   const isNonMobileScreen = useMediaQuery("(min-width:1000px)");
+  const navigate = useNavigate()
+  const state = useSelector((state)=>state.token);
+  useEffect(()=>{
+    if(state){
+      navigate('/home')
+    }
+    else {
+      navigate('/')
+    }
+
+  } , [])
 
   console.log(isNonMobileScreen);
   return (
