@@ -18,6 +18,7 @@ export const autSlice = createSlice({
     },
     // action is the arugement for the function
     setLogin: (state, action) => {
+      // state is used to get the element and the action is used to set the data of the set
       state.user = action.payload.user;
       state.token = action.payload.token;
     },
@@ -47,13 +48,11 @@ export const autSlice = createSlice({
   },
 });
 
-
 // You need to export the reducer functions to use them in your code
 // exporting the function here
 
 export const { setMode, setLogin, setLogout, setfriends, setPost, setPosts } =
   autSlice.actions;
 
-
-  // remeber there could be only one default export
+// remeber there could be only one default export
 export default autSlice.reducer;
